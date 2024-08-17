@@ -1,40 +1,26 @@
-A very simple chatbot which provides users with accurate and engaging information about the National Basketball Association, schedule, games, stats, etc ...
- It should work after purchasing OpenAI, by using whatever model provided. 
- #updated using openrouter, model llama, should be working
+Here's an adapted version for a mental health chatbot:
+
+---
+
+# AI Mental Health Chat Bot
+
+## Introduction
+The AI Mental Health Chat Bot is designed to provide users with compassionate, non-judgmental support and guidance for mental and emotional well-being. This app offers an intuitive user interface for users to chat with the bot and receive helpful advice. Additionally, the app allows users to maintain privacy with secure authentication.
+
+## Deployment
+Hosted on [Vercel](https://mental-health-chatbot.vercel.app/).
+
+## Features
+- **Chat Interface**: Users can interact with the bot, which is designed to listen actively, validate feelings, and provide supportive advice.
+- **Secure Authentication**: Users can sign up or sign in securely using Firebase Authentication.
+- **Real-time Responses**: The bot provides real-time responses, utilizing the OpenAI API to generate empathetic and supportive replies.
+- **Message History**: Users can view their conversation history during a session.
+- **Clear and Log Out**: Options to clear the chat history or log out securely.
+
+## Technology Stack
+- **Frontend**: React.js, Material-UI
+- **AI**: OpenAI for generating chatbot responses
+- **Backend**: Firebase Firestore for database management, Firebase Authentication for user authentication
+- **Hosting**: Vercel
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
-
-## Getting Started
-
-First, run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
