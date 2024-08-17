@@ -1,7 +1,3 @@
-Here's an adapted version for a mental health chatbot:
-
----
-
 # AI Mental Health Chat Bot
 
 ## Introduction
