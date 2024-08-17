@@ -1,19 +1,41 @@
-'use client'
-import { useState, useRef, useEffect } from 'react'
-import { Box, Button, CircularProgress, Stack, TextField, Typography, Link } from '@mui/material'
-import { useAuthState } from 'react-firebase-hooks/auth'
-import { auth } from '@/app/firebase/config'
-import { useRouter } from 'next/navigation'
-import { signOut } from 'firebase/auth'
+'use client';
+import { useState, useRef, useEffect } from 'react';
+import { Box, Button, CircularProgress, Stack, TextField, Typography, IconButton } from '@mui/material';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { auth } from '@/app/firebase/config';
+import { useRouter } from 'next/navigation';
+import { signOut } from 'firebase/auth';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import '@fontsource/raleway'; // Import Raleway font
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowUp } from '@fortawesome/free-solid-svg-icons'; // Import the up arrow icon
+
+const theme = createTheme({
+  typography: {
+    fontFamily: 'Raleway, Arial',
+  },
+  palette: {
+    primary: {
+      main: '#3E604C', // Darker green for assistant messages and buttons
+    },
+    secondary: {
+      main: '#9FB5A7', // Lighter green for user messages
+    },
+    error: {
+      main: '#F38891',
+      contrastText: 'white',
+    },
+  },
+});
+
 export default function Home() {
   const [user, loading] = useAuthState(auth);
   const router = useRouter();
 
-  // Ensure that hooks are not conditionally rendered
   const [messages, setMessages] = useState([
     {
       role: 'assistant',
-      content: `Hi! I'm a mental health chat bot here to listen and support you. Please remember that I'm not a substitute for professional medical advice or therapy. How can I assist you today?`
+      content: `Hi! I'm a mental health chatbot here to listen and support you. Please remember that I'm not a substitute for professional medical advice or therapy. How can I assist you today?`
     }
   ]);
   const [message, setMessage] = useState('');
@@ -24,7 +46,6 @@ export default function Home() {
       router.replace('/sign-in');
     }
   }, [user, loading, router]);
-
 
   const messagesEndRef = useRef(null);
 
@@ -48,6 +69,7 @@ export default function Home() {
         display="flex"
         justifyContent="center"
         alignItems="center"
+        backgroundColor="#DFF1E6"
       >
         <CircularProgress />
       </Box>
@@ -102,7 +124,6 @@ export default function Home() {
     }
   }
 
-
   const handleLogout = () => {
     signOut(auth);
     sessionStorage.removeItem('user');
@@ -110,99 +131,108 @@ export default function Home() {
   }
 
   return (
-   
-    <Box
-    
-      width="100vw"
-      height="95vh"
-      display="flex"
-      flexDirection="column"
-      justifyContent="center"
-      alignItems="center"
-      style={{ marginBottom: '20px', marginTop: '20px' }}
+    <ThemeProvider theme={theme}>
+      <Box
+        width="100vw"
+        height="100vh"
+        display="flex"
+        flexDirection="column"
+        justifyContent="center"
+        alignItems="center"
+        backgroundColor="#DFF1E6"
       >
-       <Typography variant="h5" component="div" fontWeight="bold" align="center" style={{margin: '15px' }}>
+        <Typography variant="h4" color="#3E604C" component="div" fontWeight="bold" align="center" style={{ margin: '30px' }}>
           Chat Bot
         </Typography>
-      <Box
-        position="absolute"
-        top={16}
-        right={16}
-      >
-        <Button
+        <Box
+          position="absolute"
+          top={16}
+          right={16}
+        >
+          <Button
             variant="contained"
             onClick={clearMessages}
             color="error"
-            style={{marginRight: '10px' }}
+            style={{ marginRight: '10px' }}
           >
             Clear
           </Button>
-        <Button variant="outlined" color="secondary" onClick={handleLogout}>
-          Log Out
-        </Button>
-        
-      </Box>
+          <Button variant="outlined" color="primary" onClick={handleLogout}>
+            Log Out
+          </Button>
+        </Box>
 
-      <Stack
-        direction="column"
-        width="600px"
-        height="700px"
-        border="1px solid black"
-        padding={2}
-        spacing={3}
-      >
         <Stack
           direction="column"
-          spacing={2}
-          flexGrow={1}
-          overflow="auto"
-          maxHeight="100%"
+          width="600px"
+          height="580px"
+          border="1px solid #3E604C"
+          padding={2}
+          spacing={3}
+          bgcolor="#ffffff"
+          borderRadius="8px"
+          boxShadow="0px 0px 10px rgba(0, 0, 0, 0.1)"
         >
-          {messages.map((message, index) => (
-            <Box key={index} display='flex' justifyContent={
-              message.role === 'assistant' ? 'flex-start' : 'flex-end'
-            }>
-              <Box
-                bgcolor={
-                  message.role === 'assistant' ? 'primary.main' : 'secondary.main'
-                }
-                color="white"
-                borderRadius={16}
-                p={3}
-              >
-                {message.content}
+          <Stack
+            direction="column"
+            spacing={2}
+            flexGrow={1}
+            overflow="auto"
+            maxHeight="100%"
+          >
+            {messages.map((message, index) => (
+              <Box key={index} display='flex' justifyContent={
+                message.role === 'assistant' ? 'flex-start' : 'flex-end'
+              }>
+                <Box
+                  bgcolor={
+                    message.role === 'assistant' ? 'primary.main' : 'secondary.main'
+                  }
+                  color="white"
+                  borderRadius={16}
+                  p={3}
+                >
+                  {message.content}
+                </Box>
               </Box>
-            </Box>
-          ))}
-          <div ref={messagesEndRef} />
+            ))}
+            <div ref={messagesEndRef} />
+          </Stack>
+
+          <Stack
+            direction="row"
+            spacing={2}
+            alignItems="center"
+          >
+            <TextField
+              label="Message"
+              fullWidth
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+              onKeyPress={handleKeyPress}
+              disabled={isLoading}
+              InputProps={{
+                sx: {
+                  backgroundColor: '#ffffff',
+                },
+              }}
+            />
+            <IconButton
+              onClick={sendMessage}
+              disabled={isLoading}
+              sx={{
+                backgroundColor: '#3E604C',
+                color: 'white',
+                '&:hover': {
+                  backgroundColor: '#2C4A3B',
+                },
+              }}
+            >
+              <FontAwesomeIcon icon={faArrowUp} />
+            </IconButton>
+          </Stack>
         </Stack>
-
-        <Stack
-          direction="row"
-          spacing={2}>
-          <TextField
-            label="Message"
-            fullWidth
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-            onKeyPress={handleKeyPress}
-            disabled={isLoading}
-          />
-        </Stack>
-
-        <Button
-          variant="contained"
-          onClick={sendMessage}
-          disabled={isLoading}
-        >
-          {isLoading ? 'Sending...' : 'Send'}
-        </Button>
-
-       
-
-       
-
-      </Stack>
-    </Box>
+      </Box>
+    </ThemeProvider>
   );
 }
