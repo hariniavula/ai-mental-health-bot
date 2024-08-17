@@ -3,9 +3,6 @@
 ## Introduction
 The AI Mental Health Chat Bot is designed to provide users with compassionate, non-judgmental support and guidance for mental and emotional well-being. This app offers an intuitive user interface for users to chat with the bot and receive helpful advice. Additionally, the app allows users to maintain privacy with secure authentication.
 
-## Deployment
-Hosted on [Vercel](https://mental-health-chatbot.vercel.app/).
-
 ## Features
 - **Chat Interface**: Users can interact with the bot, which is designed to listen actively, validate feelings, and provide supportive advice.
 - **Secure Authentication**: Users can sign up or sign in securely using Firebase Authentication.
