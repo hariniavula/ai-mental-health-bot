@@ -4,6 +4,8 @@ import { Button, Link, TextField, Typography, Container, Box } from '@mui/materi
 import {useCreateUserWithEmailAndPassword} from 'react-firebase-hooks/auth';
 import {auth} from '@/app/firebase/config'
 import { useRouter } from 'next/navigation'
+import { toast } from "react-hot-toast";
+
 
 
 const Signup = () => {
@@ -13,20 +15,40 @@ const Signup = () => {
   const [createUserWithEmailAndPassword] = useCreateUserWithEmailAndPassword(auth);
   const router = useRouter();
 
+  const handleKeyPress = (event) => {
+    if (event.key === 'Enter' && !event.shiftKey) {
+      event.preventDefault();
+      handleSignup();
+    }
+  }
+
   const handleSignup = async () => {
-    try {
-      const res = await createUserWithEmailAndPassword(email, password)
-      console.log({res})
+  try {
+      const userCredential = await createUserWithEmailAndPassword(email, password);
+      const user = userCredential.user;
+  
+      toast.success("Account successfully created! Please sign in.");
+      console.log(user);
       setEmail(''); 
       setPassword('');
-      router.push('/sign-in')
-    } catch (e){
-      console.error(e)
+      return router.push('/sign-in');
+    } catch (error) {
+      toast.error("Unable to create account. Check to see if you already have an account, if the email inputted is invalid, or if password is too short.");
+      console.log(error.message);
     }
   };
+  
+  
+   
 
   return (
-    <Container maxWidth="sm">
+    <Container maxWidth="xl"
+    sx={{
+      height: '100vh',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+    }}>
       <Box
         sx={{
           display: 'flex',
@@ -57,6 +79,7 @@ const Signup = () => {
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          onKeyPress={handleKeyPress}
         />
        
         <Button

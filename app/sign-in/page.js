@@ -4,6 +4,7 @@ import { Button, TextField, Typography, Link, Container, Box } from '@mui/materi
 import {auth} from '@/app/firebase/config'
 import {useSignInWithEmailAndPassword} from 'react-firebase-hooks/auth'
 import { useRouter } from 'next/navigation';
+import { toast } from "react-hot-toast";
 
 const SignIn = () => {
   const [email, setEmail] = useState('');
@@ -11,20 +12,37 @@ const SignIn = () => {
   const [signInWithEmailAndPassword] = useSignInWithEmailAndPassword(auth);
   const router = useRouter()
 
-  const handleSignIn = async () => {
-   try {
-    const res = await signInWithEmailAndPassword(email, password); 
-    console.log({res})
-    setEmail(''); 
-    setPassword('');
-    router.push('/')
-   } catch(e) {
-     console.error(e)
-   }
+  const handleSignIn = async (event) => {
+    try {
+      const userCredential = await signInWithEmailAndPassword(email, password); 
+      const user = userCredential.user;
+  
+      toast.success("Sign in successful!");
+      console.log(user);
+      setEmail(''); 
+      setPassword('');
+      return router.push('/');
+    } catch (error) {
+      toast.error("Sign in failed! Try again.");
+      console.log(error.message);
+    }
   };
+  
+  const handleKeyPress = (event) => {
+    if (event.key === 'Enter' && !event.shiftKey) {
+      event.preventDefault();
+      handleSignIn();
+    }
+  }
 
   return (
-    <Container maxWidth="sm">
+    <Container maxWidth="xl"
+    sx={{
+      height: '100vh',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+    }}>
       <Box
         sx={{
           display: 'flex',
@@ -55,11 +73,13 @@ const SignIn = () => {
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          onKeyPress={handleKeyPress}
         />
         <Button
           variant="contained"
           color="primary"
           onClick={handleSignIn}
+          
           sx={{
             marginTop: '1rem',
             backgroundColor: '#007bff',
