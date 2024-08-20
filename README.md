@@ -14,6 +14,5 @@ The AI Mental Health Chat Bot is designed to provide users with compassionate, n
 - **Frontend**: React.js, Material-UI
 - **AI**: OpenAI for generating chatbot responses
 - **Backend**: Firebase Firestore for database management, Firebase Authentication for user authentication
-- **Hosting**: Vercel
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
