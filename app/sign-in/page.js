@@ -82,7 +82,7 @@ const SignIn = () => {
           }}
         >
           <Typography variant="h4" color="#3E604C" gutterBottom>
-            Sign in
+            Welcome Back
           </Typography>
           <TextField
             label="Email"
